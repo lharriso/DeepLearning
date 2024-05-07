@@ -49,6 +49,7 @@ class VisualEmbedder():
     def get_model(self,cfg):
         # build model
         model = build_model(cfg)
+        model.to(self.device)
 
         # load weights
         checkpointer = DetectionCheckpointer(model)
