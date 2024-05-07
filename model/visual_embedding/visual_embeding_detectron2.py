@@ -193,7 +193,7 @@ class VisualEmbedder():
         model = self.get_model(cfg)
         images, batched_inputs = self.prepare_image_inputs(cfg, img_list, model)
         features = self.get_features(model, images)
-        print(features.keys())
+        # print(features.keys())
         proposals = self.get_proposals(model, images, features)
         box_features, features_list = self.get_box_features(model, features, proposals)
         pred_class_logits, pred_proposal_deltas = self.get_prediction_logits(model, features_list, proposals)
