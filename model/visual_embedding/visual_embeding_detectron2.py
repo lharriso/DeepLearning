@@ -206,4 +206,5 @@ class VisualEmbedder():
             max_conf.append(mx_conf)
         keep_boxes = [self.filter_boxes(keep_box, mx_conf, self.min_boxes, self.max_boxes) for keep_box, mx_conf in zip(keep_boxes, max_conf)]
         visual_embeds = [self.get_visual_embeds(box_feature, keep_box) for box_feature, keep_box in zip(box_features, keep_boxes)]
+        torch.cuda.empty_cache()
         return visual_embeds
