@@ -51,6 +51,7 @@ MAX_BOXES=100
 ##Test Data
 data_path=test_data_path
 img_dir=img_inpainted_dir
+save_interval = 100  # Save data every 100 images
 
 visualembedder=VisualEmbedder(cfg_path=cfg_path, min_boxes=MIN_BOXES, max_boxes=MAX_BOXES)
 
@@ -61,8 +62,15 @@ for i, item in enumerate(tqdm(img_data)):
     visual_embeds = visualembedder.visual_embeds_detectron2(image_list)
     
     img_data[i]['visual_embedding'] = visual_embeds[0]
+    # Save the data every 'save_interval' images
+    if (i + 1) % save_interval == 0 or i == len(img_data) - 1:
+        partial_data_df = pd.DataFrame(img_data[:i+1])
+        # Save in append mode if not the first chunk
+        if i >= save_interval:
+            partial_data_df.to_json(data_path.replace('.jsonl', '_visual_embedded_imginpainted.jsonl'), orient='records', lines=True, mode='a', header=False)
+        else:
+            partial_data_df.to_json(data_path.replace('.jsonl', '_visual_embedded_imginpainted.jsonl'), orient='records', lines=True)
 
-# Save the new img_data as json
-img_data_df = pd.DataFrame(img_data)
-img_data_df.to_json(data_path.replace('.jsonl', '_visual_embedded_imginpainted.jsonl'), orient='records', lines=True)
+        print(f"Data saved up to index {i}")
+
 
