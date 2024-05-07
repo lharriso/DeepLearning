@@ -5,10 +5,10 @@ from model.visual_embedding import VisualEmbedder
 import tqdm
 
 
-train_data_path='../data/hateful_memes/train_df_wQuery_.jsonl'
-validation_data_path='../data/hateful_memes/dev_seen_df_wQuery_.jsonl'
-test_data_path='../data/hateful_memes/test_seen_df_wQuery_.jsonl'
-img_inpainted_dir='../data/hateful_memes/img_inpainted'
+train_data_path='../../data/hateful_memes/train_df_wQuery_.jsonl'
+validation_data_path='../../data/hateful_memes/dev_seen_df_wQuery_.jsonl'
+test_data_path='../../data/hateful_memes/test_seen_df_wQuery_.jsonl'
+img_inpainted_dir='../../data/hateful_memes/img_inpainted'
 cfg_path="COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml"
 MIN_BOXES=10 
 MAX_BOXES=100
