@@ -59,7 +59,8 @@ img_data = pd.read_json(path_or_buf=data_path, lines=True).to_dict(orient='recor
 for i, item in enumerate(tqdm(img_data)):
     image_list = [cv2.imread(os.path.join(img_dir, item['img'].split('/')[-1]))]
     visual_embeds = visualembedder.visual_embeds_detectron2(image_list)
-    img_data[i]['visual_embedding'] = visual_embeds
+    
+    img_data[i]['visual_embedding'] = visual_embeds[0]
 
 # Save the new img_data as json
 img_data_df = pd.DataFrame(img_data)

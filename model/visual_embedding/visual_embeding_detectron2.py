@@ -92,13 +92,15 @@ class VisualEmbedder():
     # For this tutorial, just know that `p2`, `p3`, `p4`, `p5`, `p6` are the features needed by the RPN (Region Proposal Network). 
     # The proposals in combination with `p2`, `p3`, `p4`, `p5` are then used by the ROI (Region of Interest) heads to generate box predictions.
     def get_features(self,model, images):
-        features = model.backbone(images.tensor.to(self.device))
+        with torch.no_grad():
+            features = model.backbone(images.tensor.to(self.device))
         return features
 
     ## Get region proposals from RPN
     # This RPN takes in the features and images and generates the proposals. Based on the configuration we chose, we get 1000 proposals.
     def get_proposals(self,model, images, features):
-        proposals, _ = model.proposal_generator(images, features)
+        with torch.no_grad():
+            proposals, _ = model.proposal_generator(images, features)
         return proposals
 
     ## Get Box Features for the proposals
@@ -106,11 +108,12 @@ class VisualEmbedder():
     # We want the `box_features` to be the `fc2` outputs of the regions. Hence, I use only the layers that are needed until that step. 
     def get_box_features(self,model, features, proposals):
         features_list = [features[f] for f in ['p2', 'p3', 'p4', 'p5']]
-        box_features = model.roi_heads.box_pooler(features_list, [x.proposal_boxes for x in proposals])
-        box_features = model.roi_heads.box_head.flatten(box_features)
-        box_features = model.roi_heads.box_head.fc1(box_features)
-        box_features = model.roi_heads.box_head.fc_relu1(box_features)
-        box_features = model.roi_heads.box_head.fc2(box_features)
+        with torch.no_grad():
+            box_features = model.roi_heads.box_pooler(features_list, [x.proposal_boxes for x in proposals])
+            box_features = model.roi_heads.box_head.flatten(box_features)
+            box_features = model.roi_heads.box_head.fc1(box_features)
+            box_features = model.roi_heads.box_head.fc_relu1(box_features)
+            box_features = model.roi_heads.box_head.fc2(box_features)
 
         box_features = box_features.reshape(self.num_image, 1000, 1024) # depends on your config and batch size
         return box_features, features_list
