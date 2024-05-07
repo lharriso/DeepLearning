@@ -1,2 +1,4 @@
 data/*
 !data/.gitkeep 
+
+model/model-checkpoint/**/checkpoint*
