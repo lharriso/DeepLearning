@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import cv2
-from model.visual_embedding import VisualEmbedder
+from visual_embeding_detectron2 import VisualEmbedder
 import tqdm
 
 
