@@ -4,7 +4,7 @@ import json
 import cv2
 import numpy as np
 from copy import deepcopy
-from visual_embedding.visual_embeding_detectron2 import VisualEmbedder
+from model.visual_embedding.visual_embeding_detectron2 import VisualEmbedder
 from detectron2.modeling import build_model
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.structures.image_list import ImageList
