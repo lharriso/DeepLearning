@@ -4,17 +4,10 @@ import json
 import cv2
 import numpy as np
 from copy import deepcopy
+
+#can comment following if not using detectron2 for visual embeddings
 from model.visual_embedding.visual_embeding_detectron2 import VisualEmbedder
-from detectron2.modeling import build_model
-from detectron2.checkpoint import DetectionCheckpointer
-from detectron2.structures.image_list import ImageList
-from detectron2.data import transforms as T
-from detectron2.modeling.box_regression import Box2BoxTransform
-from detectron2.modeling.roi_heads.fast_rcnn import FastRCNNOutputs
-from detectron2.structures.boxes import Boxes
-from detectron2.layers import nms
-from detectron2 import model_zoo
-from detectron2.config import get_cfg
+####
 
 from transformers import ViTFeatureExtractor, ViTModel
 from PIL import Image
