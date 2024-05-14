@@ -74,7 +74,6 @@ def main():
 
     args = TrainingArguments(
         output_dir = output_dir,
-        seed = 110, 
         save_strategy="steps",
         evaluation_strategy = "steps",
         learning_rate=1e-5,
@@ -86,7 +85,7 @@ def main():
         save_total_limit=2,
         metric_for_best_model="auroc",
         fp16 = False,
-        save_steps=50,
+        save_steps=100,
         eval_steps=50,
         logging_steps=50,
         report_to="tensorboard"
