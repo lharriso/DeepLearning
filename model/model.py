@@ -147,9 +147,10 @@ class HateMemeClassifier(torch.nn.Module):
             self.embed_cls = nn.Linear(1024, 1024)
         self.num_labels = 2
         self.dropout = nn.Dropout(0.3)
-        self.alpha = nn.Parameter(torch.tensor(0.5))  # Initial value of alpha
+        
     
         if self.fusion_method=='weight_ensemble':
+            self.alpha = nn.Parameter(torch.tensor(0.8))  # Initial value of alpha
             self.cls= nn.Sequential(
                 nn.Linear(768, 768),
                 nn.ReLU(),
