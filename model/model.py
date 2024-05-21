@@ -36,7 +36,7 @@ import torch
 from torch.utils.data import Dataset
 
 class HatefulMemesData(Dataset):
-    def __init__(self, df,img_dir, tokenizer, sequence_length,caption_sequence_length=512, visual_embed_model='vit', print_text=False, visual_embeder_detecron2=None, device=torch.device("cuda" if torch.cuda.is_available() else "CPU")):         
+    def __init__(self, df,img_dir, tokenizer, sequence_length,caption_sequence_length=512, visual_embed_model='vit', print_text=False, visual_embeder_detecron2=None, device=torch.device("cuda" if torch.cuda.is_available() else "cpu")):         
         self.device=device
         self.sequence_length = sequence_length
         self.caption_sequence_length= caption_sequence_length

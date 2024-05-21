@@ -67,7 +67,7 @@ def main():
 
     batch_size = 124
     seq_len = 50
-    device = torch.device("cuda" if torch.cuda.is_available() else "CPU")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = HateMemeClassifier(fusion_method=fusion_method, visual_embedder=visual_embed_model)
     model = model.to(device)
