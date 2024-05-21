@@ -2,3 +2,5 @@ data/*
 !data/.gitkeep 
 
 model/model-checkpoint/**/checkpoint*
+
+model/.ipynb_checkpoints
