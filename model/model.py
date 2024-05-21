@@ -148,21 +148,32 @@ class HateMemeClassifier(torch.nn.Module):
         elif visual_embedder=='detectron2':
             self.embed_cls = nn.Linear(1024, 1024)
         self.num_labels = 2
-        self.dropout = nn.Dropout(0.3)
+        self.dropout = nn.Dropout(0.1)
         
     
         if self.fusion_method=='weight_ensemble':
-            self.alpha = nn.Parameter(torch.tensor(0.8))  # Initial value of alpha
+            self.alpha = nn.Parameter(torch.tensor(0.5))  # Initial value of alpha
             self.cls= nn.Sequential(
                 nn.Linear(768, 768),
                 nn.ReLU(),
-                nn.Dropout(0.3),
+                nn.Dropout(0.1),
+                nn.Linear(768, 768),
+                nn.ReLU(),
+                nn.Dropout(0.1),
+                nn.Linear(768, 768),
+                nn.ReLU(),
+                nn.Dropout(0.1),
+                nn.Linear(768, 768),
+                nn.ReLU(),
+                nn.Dropout(0.1),
+                nn.Linear(768, 768),
+                nn.ReLU(),
+                nn.Dropout(0.1),
                 nn.Linear(768, 348),
                 nn.ReLU(),
-                nn.Dropout(0.3),
+                nn.Dropout(0.1),
                 nn.Linear(348, 192),
                 nn.ReLU(),
-                nn.Dropout(0.3),
                 nn.Linear(192, self.num_labels)
             )
         # TODO: Calculate the weights for the loss function and weight balanced loss
