@@ -73,12 +73,12 @@ def main():
             wandb_key = f.read().strip()
             
         wandb.login(key=wandb_key)
-        wandb.init(
+        wandb_run=wandb.init(
             project="HatefulMemes",
         )
-        wandb_log=wandb
+    
     else:
-        wandb_log=None
+        wandb_run=None
 
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     train_data_path=os.path.join(data_dir, 'query236/train_.jsonl')
@@ -97,7 +97,7 @@ def main():
     seq_len = 50
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model = HateMemeClassifier(fusion_method=fusion_method, visual_embedder=visual_embed_model,wandb=wandb_log)
+    model = HateMemeClassifier(fusion_method=fusion_method, visual_embedder=visual_embed_model,wandb_run=wandb_run)
     model = model.to(device)
 
     args = TrainingArguments(
