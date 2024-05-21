@@ -6,7 +6,7 @@ import numpy as np
 from copy import deepcopy
 
 #can comment following if not using detectron2 for visual embeddings
-from model.visual_embedding.visual_embeding_detectron2 import VisualEmbedder
+# from model.visual_embedding.visual_embeding_detectron2 import VisualEmbedder
 ####
 
 from transformers import ViTFeatureExtractor, ViTModel
@@ -122,7 +122,7 @@ class HatefulMemesData(Dataset):
 
 # TODO: Add your fusion model here
 class HateMemeClassifier(torch.nn.Module):
-    def __init__(self,fusion_method, visual_embedder='vit'):
+    def __init__(self,fusion_method, visual_embedder='vit',wandb=None):
         """
         In the constructor we instantiate two nn.Linear modules and assign them as
         member variables.
@@ -131,6 +131,7 @@ class HateMemeClassifier(torch.nn.Module):
         """
         super(HateMemeClassifier, self).__init__()
         self.fusion_method = fusion_method # 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble'
+        self.wandb=wandb
 
         configuration = VisualBertConfig.from_pretrained('uclanlp/visualbert-nlvr2-coco-pre',
                                                 hidden_dropout_prob=0.1, attention_probs_dropout_prob=0.1)
@@ -200,7 +201,8 @@ class HateMemeClassifier(torch.nn.Module):
         if self.fusion_method=='weight_ensemble':
             # funsion model: weight ensenble of the two embeddings: alpha*visualbert_embedding + (1-alpha)*caption_embeddings 
             fused_embedding = self.alpha * self.dropout(visualbert_embedding) + (1-self.alpha) * self.dropout(caption_embeddings)
-
+            self.wandb.log({"alpha": self.alpha})
+        
         logits = self.cls(fused_embedding)
         ##
         
