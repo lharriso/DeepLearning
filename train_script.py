@@ -116,8 +116,8 @@ def main():
         fp16 = False,
         save_steps=100,
         eval_steps=50,
-        logging_steps=50,
-        report_to="tensorboard"
+        logging_steps=10,
+        report_to="wandb"
     )
 
     trainer = Trainer(

@@ -202,7 +202,7 @@ class HateMemeClassifier(torch.nn.Module):
         if self.fusion_method=='weight_ensemble':
             # funsion model: weight ensenble of the two embeddings: alpha*visualbert_embedding + (1-alpha)*caption_embeddings 
             fused_embedding = self.alpha * self.dropout(visualbert_embedding) + (1-self.alpha) * self.dropout(caption_embeddings)
-            self.wandb_run.log({"alpha": self.alpha},commit=False)
+            self.wandb_run.log({"alpha": self.alpha.data.cpu().numpy()},commit=False)
         
         logits = self.cls(fused_embedding)
         ##
