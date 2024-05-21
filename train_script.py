@@ -43,6 +43,12 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--query",
+        type=str,
+        help="which query to run, ex query_1 or quesry236",
+    )
+
+    parser.add_argument(
         "--wandb-key",
         type=str,
         help="wandb key path",
@@ -60,6 +66,7 @@ def main():
     save_dir=args.save_folder_path
     fusion_method=args.fusion_method
     wandb_key_path=args.wandb_key
+    query=args.query
 
     if wandb_key_path != 'None':
         with open(wandb_key_path, "r") as f:
@@ -74,8 +81,8 @@ def main():
         wandb_log=None
 
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
-    train_data_path=os.path.join(data_dir, 'train_df_wQuery_.jsonl')
-    validation_data_path=os.path.join(data_dir, 'dev_seen_df_wQuery_.jsonl')
+    train_data_path=os.path.join(data_dir, 'query236/train_.jsonl')
+    validation_data_path=os.path.join(data_dir, 'query236/dev_seen_.jsonl')
     img_inpainted_dir=os.path.join(data_dir, 'img_inpainted')
     visual_embed_model=args.visual_embed_model
     ## For visual_embed_model='detectron2'
@@ -116,8 +123,8 @@ def main():
     trainer = Trainer(
         model,
         args,
-        train_dataset = HatefulMemesData(train_data_path, img_inpainted_dir, tokenizer, sequence_length=seq_len, visual_embed_model=visual_embed_model,device=device),
-        eval_dataset =  HatefulMemesData(validation_data_path, img_inpainted_dir,tokenizer, sequence_length=seq_len, visual_embed_model=visual_embed_model,device=device),
+        train_dataset = HatefulMemesData(train_data_path, img_inpainted_dir, tokenizer, sequence_length=seq_len,query=query, visual_embed_model=visual_embed_model,device=device),
+        eval_dataset =  HatefulMemesData(validation_data_path, img_inpainted_dir,tokenizer, sequence_length=seq_len,query=query, visual_embed_model=visual_embed_model,device=device),
         tokenizer=tokenizer,
         compute_metrics=compute_metrics
     )

@@ -36,8 +36,9 @@ import torch
 from torch.utils.data import Dataset
 
 class HatefulMemesData(Dataset):
-    def __init__(self, df,img_dir, tokenizer, sequence_length,caption_sequence_length=512, visual_embed_model='vit', print_text=False, visual_embeder_detecron2=None, device=torch.device("cuda" if torch.cuda.is_available() else "cpu")):         
+    def __init__(self, df,img_dir, tokenizer, sequence_length,query,caption_sequence_length=512, visual_embed_model='vit', print_text=False, visual_embeder_detecron2=None, device=torch.device("cuda" if torch.cuda.is_available() else "cpu")):         
         self.device=device
+        self.query=query
         self.sequence_length = sequence_length
         self.caption_sequence_length= caption_sequence_length
         self.tokenizer = tokenizer
@@ -64,7 +65,7 @@ class HatefulMemesData(Dataset):
         token_type_ids = encoded_dict['token_type_ids']
         attn_mask = encoded_dict['attention_mask']
         
-        captioning_encode_dict=self.tokenizer(example['query_1'], padding='max_length', max_length=self.caption_sequence_length,truncation=True, return_tensors='pt')
+        captioning_encode_dict=self.tokenizer(example[self.query], padding='max_length', max_length=self.caption_sequence_length,truncation=True, return_tensors='pt')
         caption_token=captioning_encode_dict['input_ids']
         caption_token_type_ids=captioning_encode_dict['token_type_ids']
         caption_attn_mask=captioning_encode_dict['attention_mask']
@@ -80,7 +81,7 @@ class HatefulMemesData(Dataset):
                 img = np.array(img)
                 img = img[...,:3]
                 inputs = self.feature_extractor(images=img, return_tensors="pt")
-                outputs = self.feature_model(**inputs.to(device))
+                outputs = self.feature_model(**inputs.to(self.device))
                 visual_embeds = outputs.last_hidden_state
                 visual_embeds = visual_embeds.cpu() #
             elif self.visual_embed_model=='detectron2':
