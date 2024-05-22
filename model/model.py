@@ -127,7 +127,7 @@ class HateMemeClassifier(torch.nn.Module):
         """
         In the constructor we instantiate two nn.Linear modules and assign them as
         member variables.
-        fusion_method: 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble'
+        fusion_method: 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble' or 'visualbert'
         visual_embedder: 'vit' or 'detectron2'
         """
         super(HateMemeClassifier, self).__init__()
