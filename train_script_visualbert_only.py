@@ -105,7 +105,7 @@ def main():
         seed = 110,
         save_strategy="steps",
         evaluation_strategy = "steps",
-        learning_rate=1e-5,
+        learning_rate=1e-3,
         warmup_steps=20,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
