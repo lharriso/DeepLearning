@@ -83,7 +83,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     train_data_path=os.path.join(data_dir, 'query236/train_.jsonl')
     validation_data_path=os.path.join(data_dir, 'query236/dev_seen_.jsonl')
-    img_inpainted_dir=os.path.join(data_dir, 'img_inpainted')
+    img_inpainted_dir=os.path.join(data_dir, 'img')
     visual_embed_model=args.visual_embed_model
     ## For visual_embed_model='detectron2'
     # cfg_path="COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml"
