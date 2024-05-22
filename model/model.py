@@ -149,6 +149,21 @@ class HateMemeClassifier(torch.nn.Module):
     
         if self.fusion_method=='weight_ensemble':
             self.alpha = nn.Parameter(torch.tensor(0.5))  # Initial value of alpha
+            
+        if self.fusion_method=='linear_weight_ensemble':
+            self.alpha = nn.Parameter(torch.tensor(0.5))  # Initial value of alpha
+            self.cls_visual = nn.Sequential(
+                nn.Linear(768, 768),
+                nn.ReLU(),
+                nn.Dropout(0.1),
+                nn.BatchNorm1d(768),
+            )
+            self.cls_text = nn.Sequential(
+                nn.Linear(768, 768),
+                nn.ReLU(),
+                nn.Dropout(0.1),
+                nn.BatchNorm1d(768),
+            )
 
         self.cls= nn.Sequential(
             nn.Linear(768, 348),
@@ -200,6 +215,12 @@ class HateMemeClassifier(torch.nn.Module):
         if self.fusion_method=='weight_ensemble':
             # funsion model: weight ensenble of the two embeddings: alpha*visualbert_embedding + (1-alpha)*caption_embeddings 
             fused_embedding = self.alpha * self.dropout(visualbert_embedding) + (1-self.alpha) * self.dropout(caption_embeddings)
+            self.wandb_run.log({"alpha": self.alpha.data.cpu().numpy()},commit=False)
+        
+            logits = self.cls(fused_embedding)
+        if self.fusion_method=='linear_weight_ensemble':
+            # funsion model: weight ensenble of the two embeddings: alpha*visualbert_embedding + (1-alpha)*caption_embeddings 
+            fused_embedding = self.alpha * self.cls_visual(visualbert_embedding) + (1-self.alpha) * self.cls_text(caption_embeddings)
             self.wandb_run.log({"alpha": self.alpha.data.cpu().numpy()},commit=False)
         
             logits = self.cls(fused_embedding)
