@@ -100,13 +100,32 @@ def main():
     model = HateMemeClassifier(fusion_method=fusion_method, visual_embedder=visual_embed_model,wandb_run=wandb_run)
     model = model.to(device)
 
+    # args = TrainingArguments(
+    #     output_dir = output_dir,
+    #     seed = 110,
+    #     save_strategy="steps",
+    #     evaluation_strategy = "steps",
+    #     learning_rate=1e-3,
+    #     warmup_steps=20,
+    #     per_device_train_batch_size=batch_size,
+    #     per_device_eval_batch_size=batch_size,
+    #     num_train_epochs= args.epochs,
+    #     weight_decay=0.05,
+    #     load_best_model_at_end=True,
+    #     save_total_limit=2,
+    #     metric_for_best_model="auroc",
+    #     fp16 = False,
+    #     save_steps=100,
+    #     eval_steps=50,
+    #     logging_steps=10,
+    #     report_to="wandb"
+    # )
+
     args = TrainingArguments(
         output_dir = output_dir,
-        seed = 110,
-        save_strategy="steps",
+        seed = 110, 
         evaluation_strategy = "steps",
-        learning_rate=1e-3,
-        warmup_steps=20,
+        learning_rate=1e-5,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
         num_train_epochs= args.epochs,
@@ -114,12 +133,12 @@ def main():
         load_best_model_at_end=True,
         save_total_limit=2,
         metric_for_best_model="auroc",
+        eval_steps = 50,
+        save_steps = 100,
         fp16 = False,
-        save_steps=100,
-        eval_steps=50,
-        logging_steps=10,
-        report_to="wandb"
+        gradient_accumulation_steps = 2
     )
+
 
     trainer = Trainer(
         model,
