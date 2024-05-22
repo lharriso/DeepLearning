@@ -135,6 +135,7 @@ def main():
         metric_for_best_model="auroc",
         eval_steps = 50,
         save_steps = 100,
+        logging_steps=10,
         fp16 = False,
         gradient_accumulation_steps = 2
     )
