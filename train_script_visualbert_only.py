@@ -137,7 +137,7 @@ def main():
         save_steps = 100,
         logging_steps=10,
         fp16 = False,
-        gradient_accumulation_steps = 2
+        # gradient_accumulation_steps = 2
     )
 
 
