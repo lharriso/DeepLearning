@@ -93,7 +93,7 @@ def main():
     ##
     output_dir=os.path.join(save_dir, f'hatefulmemcladdifier_{fusion_method}_{visual_embed_model}_{time.strftime("%Y%m%d%H%M")}')
 
-    batch_size = 124
+    batch_size = 24
     seq_len = 50
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -102,10 +102,11 @@ def main():
 
     args = TrainingArguments(
         output_dir = output_dir,
+        seed = 110,
         save_strategy="steps",
         evaluation_strategy = "steps",
-        learning_rate=1e-3,
-        warmup_steps=50,
+        learning_rate=1e-5,
+        warmup_steps=20,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
         num_train_epochs= args.epochs,
