@@ -45,7 +45,7 @@ def parse_args():
     parser.add_argument(
         "--query",
         type=str,
-        help="which query to run, ex query_1 or quesry236",
+        help="which query to run, ex query_1 or query_8",
     )
 
     parser.add_argument(

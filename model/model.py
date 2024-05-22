@@ -177,6 +177,9 @@ class HateMemeClassifier(torch.nn.Module):
             nn.Linear(192, self.num_labels)
         )
 
+        if self.fusion_method == 'visualbert':
+            self.cls=nn.Linear(768, self.num_labels)
+
         # Calculate the weights for the loss function and weight balanced loss
         nSamples = [5450,3050]
         normedWeights = [1 - (x / sum(nSamples)) for x in nSamples]
