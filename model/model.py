@@ -165,20 +165,19 @@ class HateMemeClassifier(torch.nn.Module):
                 nn.BatchNorm1d(768),
             )
 
-        self.cls= nn.Sequential(
-            nn.Linear(768, 348),
-            nn.ReLU(),
-            nn.Dropout(0.1),
-            nn.BatchNorm1d(348),
-            nn.Linear(348, 192),
-            nn.ReLU(),
-            nn.Dropout(0.1),
-            nn.BatchNorm1d(192),
-            nn.Linear(192, self.num_labels)
-        )
+        # self.cls= nn.Sequential(
+        #     nn.Linear(768, 348),
+        #     nn.ReLU(),
+        #     nn.Dropout(0.1),
+        #     nn.BatchNorm1d(348),
+        #     nn.Linear(348, 192),
+        #     nn.ReLU(),
+        #     nn.Dropout(0.1),
+        #     nn.BatchNorm1d(192),
+        #     nn.Linear(192, self.num_labels)
+        # )
 
-        if self.fusion_method == 'visualbert':
-            self.cls=nn.Linear(768, self.num_labels)
+        self.cls=nn.Linear(768, self.num_labels)
 
         # Calculate the weights for the loss function and weight balanced loss
         nSamples = [5450,3050]
