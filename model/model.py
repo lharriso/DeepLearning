@@ -164,20 +164,56 @@ class HateMemeClassifier(torch.nn.Module):
                 nn.Dropout(0.1),
                 nn.BatchNorm1d(768),
             )
+        # 11 +1 layer model
+        self.cls= nn.Sequential(
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 768),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(768),
+            nn.Linear(768, 348),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(348),
+            nn.Linear(348, 192),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(192),
+            nn.Linear(192, 96),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(96),
+            nn.Linear(96, 48),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.BatchNorm1d(48),
+            nn.Linear(48, self.num_labels)
+        )
 
-        # self.cls= nn.Sequential(
-        #     nn.Linear(768, 348),
-        #     nn.ReLU(),
-        #     nn.Dropout(0.1),
-        #     nn.BatchNorm1d(348),
-        #     nn.Linear(348, 192),
-        #     nn.ReLU(),
-        #     nn.Dropout(0.1),
-        #     nn.BatchNorm1d(192),
-        #     nn.Linear(192, self.num_labels)
-        # )
-
-        self.cls=nn.Linear(768, self.num_labels)
+        # self.cls=nn.Linear(768, self.num_labels)
 
         # Calculate the weights for the loss function and weight balanced loss
         nSamples = [5450,3050]
