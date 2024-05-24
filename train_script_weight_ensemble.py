@@ -127,7 +127,7 @@ def main():
         output_dir = output_dir,
         seed = 110, 
         evaluation_strategy = "steps",
-        learning_rate=1e-5,
+        learning_rate=1e-6,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
         num_train_epochs= args.epochs,
