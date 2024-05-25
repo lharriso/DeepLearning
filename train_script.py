@@ -39,7 +39,7 @@ def parse_args():
     parser.add_argument(
         "--fusion-method",
         type=str,
-        help="fusion method",
+        help="fusion method: 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble' or 'visualbert' (visualbert only)",
     )
 
     parser.add_argument(
