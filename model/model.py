@@ -5,10 +5,6 @@ import cv2
 import numpy as np
 from copy import deepcopy
 
-#can comment following if not using detectron2 for visual embeddings
-# from model.visual_embedding.visual_embeding_detectron2 import VisualEmbedder
-####
-
 from transformers import ViTFeatureExtractor, ViTModel
 from PIL import Image
 import os
@@ -58,7 +54,7 @@ class HatefulMemesData(Dataset):
     def tokenize_data(self, example):
    
         idx = example['id']
-        # idx = [idx] if isinstance(idx, str) else idx
+
         
         encoded_dict = self.tokenizer(example['text'], padding='max_length', max_length=self.sequence_length, truncation=True, return_tensors='pt')
         tokens = encoded_dict['input_ids']
@@ -75,7 +71,6 @@ class HatefulMemesData(Dataset):
         ## Get Visual Embeddings
         try:
             if self.visual_embed_model=='vit':
-                #TODO: make it work
                 img = example['img'].split('/')[-1]
                 img = Image.open(os.path.join(self.img_dir , img))
                 img = np.array(img)
@@ -88,7 +83,6 @@ class HatefulMemesData(Dataset):
                 visual_embeds = self.visualembedder.visual_embeds_detectron2([cv2.imread(os.path.join(self.img_dir, example['img'].split('/')[-1]))])[0]
 
         except:
-            # print("Error with Id: ", idx)
             if self.visual_embed_model=='vit':
                 visual_embeds = np.zeros(shape=(197, 768), dtype=float)
             elif self.visual_embed_model=='detectron2':
@@ -121,7 +115,6 @@ class HatefulMemesData(Dataset):
         return inputs
 
 
-# TODO: Add your fusion model here
 class HateMemeClassifier(torch.nn.Module):
     def __init__(self,fusion_method, visual_embedder='vit',wandb_run=None):
         """
@@ -164,18 +157,6 @@ class HateMemeClassifier(torch.nn.Module):
                 nn.Dropout(0.1),
                 nn.BatchNorm1d(768),
             )
-
-        # self.cls= nn.Sequential(
-        #     nn.Linear(768, 348),
-        #     nn.ReLU(),
-        #     nn.Dropout(0.1),
-        #     nn.BatchNorm1d(348),
-        #     nn.Linear(348, 192),
-        #     nn.ReLU(),
-        #     nn.Dropout(0.1),
-        #     nn.BatchNorm1d(192),
-        #     nn.Linear(192, self.num_labels)
-        # )
 
         self.cls=nn.Linear(768, self.num_labels)
 

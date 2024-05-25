@@ -76,24 +76,16 @@ def main():
         wandb_run=wandb.init(
             project="HatefulMemes",
         )
-        wandb_run_name=wandb_run.name
     
     else:
         wandb_run=None
-        wandb_run_name="None"
 
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     train_data_path=os.path.join(data_dir, 'query236/train_.jsonl')
     validation_data_path=os.path.join(data_dir, 'query236/dev_seen_.jsonl')
     img_inpainted_dir=os.path.join(data_dir, 'img')
     visual_embed_model=args.visual_embed_model
-    ## For visual_embed_model='detectron2'
-    # cfg_path="COCO-InstanceSegmentation/mask_rcnn_R_101_FPN_3x.yaml"
-    # MIN_BOXES=10 
-    # MAX_BOXES=100
-    # visualembedder_detectron2=VisualEmbedder(cfg_path=cfg_path, min_boxes=MIN_BOXES, max_boxes=MAX_BOXES)
-    ##
-    output_dir=os.path.join(save_dir, f'hatefulmemcladdifier_{fusion_method}_{visual_embed_model}_{wandb_run_name}_{time.strftime("%Y%m%d%H%M")}')
+    output_dir=os.path.join(save_dir, f'hatefulmemcladdifier_{fusion_method}_{visual_embed_model}_{time.strftime("%Y%m%d%H%M")}')
 
     batch_size = 24
     seq_len = 50
@@ -102,32 +94,11 @@ def main():
     model = HateMemeClassifier(fusion_method=fusion_method, visual_embedder=visual_embed_model,wandb_run=wandb_run)
     model = model.to(device)
 
-    # args = TrainingArguments(
-    #     output_dir = output_dir,
-    #     seed = 110,
-    #     save_strategy="steps",
-    #     evaluation_strategy = "steps",
-    #     learning_rate=1e-3,
-    #     warmup_steps=20,
-    #     per_device_train_batch_size=batch_size,
-    #     per_device_eval_batch_size=batch_size,
-    #     num_train_epochs= args.epochs,
-    #     weight_decay=0.05,
-    #     load_best_model_at_end=True,
-    #     save_total_limit=2,
-    #     metric_for_best_model="auroc",
-    #     fp16 = False,
-    #     save_steps=100,
-    #     eval_steps=50,
-    #     logging_steps=10,
-    #     report_to="wandb"
-    # )
-
     args = TrainingArguments(
         output_dir = output_dir,
         seed = 110, 
         evaluation_strategy = "steps",
-        learning_rate=1e-6,
+        learning_rate=1e-5,
         per_device_train_batch_size=batch_size,
         per_device_eval_batch_size=batch_size,
         num_train_epochs= args.epochs,
