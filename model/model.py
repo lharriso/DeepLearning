@@ -44,8 +44,6 @@ class HatefulMemesData(Dataset):
         self.visual_embed_model = visual_embed_model
         self.feature_extractor = ViTFeatureExtractor.from_pretrained('google/vit-base-patch16-224-in21k')
         self.feature_model = ViTModel.from_pretrained('google/vit-base-patch16-224-in21k').to(self.device)
-        if self.visual_embed_model=='detectron2' and visual_embeder_detecron2 is not None:
-            self.visualembedder=visual_embeder_detecron2
 
     def __len__(self):
         return len(self.dataset)
@@ -78,15 +76,10 @@ class HatefulMemesData(Dataset):
                 inputs = self.feature_extractor(images=img, return_tensors="pt")
                 outputs = self.feature_model(**inputs.to(self.device))
                 visual_embeds = outputs.last_hidden_state
-                visual_embeds = visual_embeds.cpu() #
-            elif self.visual_embed_model=='detectron2':
-                visual_embeds = self.visualembedder.visual_embeds_detectron2([cv2.imread(os.path.join(self.img_dir, example['img'].split('/')[-1]))])[0]
-
+                visual_embeds = visual_embeds.cpu() 
         except:
             if self.visual_embed_model=='vit':
                 visual_embeds = np.zeros(shape=(197, 768), dtype=float)
-            elif self.visual_embed_model=='detectron2':
-                visual_embeds = np.zeros(shape=(100, 1024), dtype=float)
 
         visual_attention_mask = torch.ones(visual_embeds.shape[:-1], dtype=torch.int64)
         visual_token_type_ids = torch.ones(visual_embeds.shape[:-1], dtype=torch.int64)
@@ -121,7 +114,7 @@ class HateMemeClassifier(torch.nn.Module):
         In the constructor we instantiate two nn.Linear modules and assign them as
         member variables.
         fusion_method: 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble' or 'visualbert'
-        visual_embedder: 'vit' or 'detectron2'
+        visual_embedder: 'vit'
         """
         super(HateMemeClassifier, self).__init__()
         self.fusion_method = fusion_method # 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble' or 'visualbert'
@@ -135,8 +128,6 @@ class HateMemeClassifier(torch.nn.Module):
 
         if visual_embedder=='vit':
             self.embed_cls = nn.Linear(768, 1024)
-        elif visual_embedder=='detectron2':
-            self.embed_cls = nn.Linear(1024, 1024)
         self.num_labels = 2
         self.dropout = nn.Dropout(0.3)
     
