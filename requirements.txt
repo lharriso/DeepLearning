@@ -1,0 +1,16 @@
+pandas
+transformers
+scikit-learn 
+scipy 
+matplotlib
+pillow
+datasets 
+accelerate
+torch
+torchvision
+torchaudio
+wandb
+argparse
+opencv-python
+keras-ocr
+numpy

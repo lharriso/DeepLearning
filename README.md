@@ -2,6 +2,7 @@
 The project is part of the course EE559 Deep Leaning in EPFL.
 
 ## Introduction
+TODO: Add here
 
 ## Dataset
 Original Dataset can be download at this website: https://hatefulmemeschallenge.com/
@@ -28,6 +29,13 @@ text, while BERT is employed to handle the image captioning with different quest
 TODO: add model architecture image here
 
 Our model and the dataset class is defined in the file [model.py](model/model.py)
+
+## Set up environment
+```
+conda create --name <my-env> python=3.10
+conda activate <my-env>
+pip install -r requirements.txt
+```
 
 ## Train
 ```
