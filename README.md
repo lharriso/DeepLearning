@@ -2,7 +2,7 @@
 The project is part of the course EE559 Deep Leaning in EPFL.
 
 ## Introduction
-TODO: Add here
+Hate speech is becoming an increasingly serious problem in society and has a severe impact on individuals' mental and emotional health. No field is safe from hate speech, including memes, which usually are used to convey a joke to make an individual laugh but can sadly also be used to communicate hate speech which is a serious issue we face today. Our project attempts to adress this problem by learning to classify whether a meme is considered as hate speech or not. We incorporate the image captioning of meme images with various questions. We leverage BERT and Visualbert as well as other machine learning techniques to analyze text and image data simultaneously in order to create a hate speech classifier.
 
 ## Dataset
 Original Dataset can be download at this website: https://hatefulmemeschallenge.com/
