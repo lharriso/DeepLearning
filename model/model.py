@@ -176,8 +176,11 @@ class HateMemeClassifier(torch.nn.Module):
         #     nn.BatchNorm1d(192),
         #     nn.Linear(192, self.num_labels)
         # )
+        if self.fusion_method=='concatenate':
+            self.cls = nn.Linear(768*2, self.num_labels)
+        else:
+            self.cls = nn.Linear(768, self.num_labels)
 
-        self.cls=nn.Linear(768, self.num_labels)
 
         # Calculate the weights for the loss function and weight balanced loss
         nSamples = [5450,3050]
@@ -229,6 +232,11 @@ class HateMemeClassifier(torch.nn.Module):
         
         if self.fusion_method=='visualbert':
             logits = self.cls(self.dropout(visualbert_embedding))
+            
+        if self.fusion_method=='concatenate':
+            # funsion model: concatenate the two embeddings
+            fused_embedding = torch.cat((visualbert_embedding, caption_embeddings), dim=1)
+            logits = self.cls(fused_embedding)
         
         
         reshaped_logits = logits.view(-1, self.num_labels)
