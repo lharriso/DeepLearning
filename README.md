@@ -2,7 +2,9 @@
 Repository for the Hateful Content classification
 
 ## Dataset
-Datset can be download at this website: https://hatefulmemeschallenge.com/
+Dataset can be download at this website: https://hatefulmemeschallenge.com/
+
+One drive link: https://epflch-my.sharepoint.com/:f:/g/personal/michael_hauri_epfl_ch/EiAFUxrHm5lJjNhAfHo5Z5YBrhjJAkHeVUvkCwqL0AY9gw
 
 **Put the dataset under data/ folder so it will be ignore by git
 
