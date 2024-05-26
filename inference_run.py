@@ -20,7 +20,7 @@ from datasets import load_metric
 import argparse
 
 class HateMemeClassifier(torch.nn.Module):
-    def __init__(self,fusion_method, visual_embedder='vit',wandb_run=None):
+    def __init__(self,fusion_method, visual_embedder='vit'):
         """
         In the constructor we instantiate two nn.Linear modules and assign them as
         member variables.
@@ -29,8 +29,6 @@ class HateMemeClassifier(torch.nn.Module):
         """
         super(HateMemeClassifier, self).__init__()
         self.fusion_method = fusion_method # 'concatenate' or 'weight_ensemble' or 'linear_weight_ensemble' or 'visualbert'
-        self.wandb_run=wandb_run
-
         configuration = VisualBertConfig.from_pretrained('uclanlp/visualbert-nlvr2-coco-pre',
                                                 hidden_dropout_prob=0.1, attention_probs_dropout_prob=0.1)
         self.visualbert = VisualBertModel.from_pretrained('uclanlp/visualbert-nlvr2-coco-pre', config=configuration)
@@ -180,7 +178,8 @@ def main():
     # Define training arguments (only evaluation relevant parameters)
     train_args = TrainingArguments(
         output_dir="./results",  
-        per_device_eval_batch_size=24
+        per_device_eval_batch_size=24,
+	report_to='none'
     )
 
     # Initialize Trainer
